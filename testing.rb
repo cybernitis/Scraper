@@ -40,7 +40,7 @@ File.open(local_html, 'w') {|f| f.write(html) }
 
  links = html.scan(/href\S+"/).join("\n").scan(/"\S+"/)
 
-puts "Your scrape of #{url.upcase} contains the following links:"
+#puts "Your scrape of #{url.upcase} contains the following links:"
 
 links.each{ |link|
 
@@ -48,20 +48,24 @@ if link =~ /.com/ && /(?!\/#{filename}\/)/
 
   if link =~ /#{filename}/
 
-    i_link = link
-    print "Internal link - " + i_link + "\n"
+      i_link = link
+       #print "Internal link - " + i_link + "\n"
 
 else
 
   e_link = link
-    print "External link - " + e_link + "\n"
+    #print "External link - " + e_link + "\n"
 end
 
 elsif link !~ /#{filename}\./
 
   path = link
-    print "Path - " + path + "\n"
+    #print "Path - " + path.to_s + "\n"
 
+    if path.to_s =~ /\/"$/
+      puts "Created:" + "\n" + filename + path.gsub!(/"/, "").to_s
+      FileUtils.mkpath "#{filename}#{path.to_s}"
+    end
 
 end
 }
